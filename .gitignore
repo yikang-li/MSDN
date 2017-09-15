@@ -107,6 +107,5 @@ output
 output/
 log/
 *.mat
-faster_rcnn/make.sh
 Debug_Code.ipynb
 eval/*.json

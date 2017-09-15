@@ -20,7 +20,28 @@ We are still working on the project. If you are interested, please **Follow** ou
 
 ## Project Settings
 
-We will update Soon
+1. Install the requirements (you can use pip or [Anaconda](https://www.continuum.io/downloads)):
+
+    ```
+    conda install pip pyyaml sympy h5py cython numpy scipy
+    conda install -c menpo opencv3
+    pip install easydict
+    ```
+
+2. Clone the Faster R-CNN repository
+    ```bash
+    git clone git@github.com:yikang-li/MSDN.git
+    ```
+
+3. Build the Cython modules for nms and the roi_pooling layer
+    ```bash
+    cd MSDN/faster_rcnn
+    ./make.sh
+    ```
+4. Download the [trained model](https://drive.google.com/open?id=0B4pXCfnYmG1WOXdpYVFybWxiZFE) 
+
+5. Download [our cleansed Visual Genome dataset](https://www.dropbox.com/sh/anewjszk97caes1/AAB3IBziBnQTclv-iHkfZezca?dl=0). p.s. Our ipython [scripts](https://github.com/yikang-li/vg_cleansing) for data cleansing is also released. 
+6. 
 
 
 ## Data perparation
@@ -67,7 +88,11 @@ Since our project only support one-GPU training, the training process is really 
 
 
 ```
-CUDA_VISIBLE_DEVICES=5 python train_hdn.py --resume_training --resume_model ./pretrained_models/HDN_1_iters_alt_normal_H_LSTM_with_bias_with_dropout_0_5_nembed_256_nhidden_512_with_region_regression_resume_SGD_best.h5 --dataset_option=normal  --MPS_iter=1 --caption_use_bias --caption_use_dropout --rnn_type LSTM_normal
+CUDA_VISIBLE_DEVICES=5 python train_hdn.py \ 
+	--resume_training --resume_model ./pretrained_models/HDN_1_iters_alt_normal_H_LSTM_with_bias_with_dropout_0_5_nembed_256_nhidden_512_with_region_regression_resume_SGD_best.h5 \
+	--dataset_option=normal  --MPS_iter=1 \
+	--caption_use_bias --caption_use_dropout \
+	--rnn_type LSTM_normal
 ```
 
 
@@ -78,11 +103,11 @@ We thank [longcw](https://github.com/longcw/faster_rcnn_pytorch) for his generou
 
 ## Reference
 
-@inproceedings{li2017msdn,
-    author={Li, Yikang and Ouyang, Wanli and Zhou, Bolei and Wang, Kun and Wang, Xiaogang},
-    title={Scene graph generation from objects, phrases and region captions},
-    booktitle = {Proceedings of the IEEE International Conference on Computer Vision},
-    year      = {2017}
+@inproceedings{li2017msdn,  
+	author={Li, Yikang and Ouyang, Wanli and Zhou, Bolei and Wang, Kun and Wang, Xiaogang},  
+	title={Scene graph generation from objects, phrases and region captions},  
+	booktitle = {Proceedings of the IEEE International Conference on Computer Vision},  
+	year      = {2017}  
 }
 
 ## License:
