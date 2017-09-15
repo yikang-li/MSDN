@@ -1,15 +1,15 @@
 # Multi-level Scene Description Network
 
 
-This is our PyTorch Implementation of [Scene Graph Generation from Objects, Phrases and Region Captions](http://cvboy.com/pdf/iccv2017_msdn.pdf). The project is based on PyTorch implementation of [faster R-CNN](https://github.com/longcw/faster_rcnn_pytorch). 
+This is our implementation of **Multi-level Scene Description Network** in [Scene Graph Generation from Objects, Phrases and Region Captions](http://cvboy.com/pdf/iccv2017_msdn.pdf). The project is based on PyTorch version of [faster R-CNN](https://github.com/longcw/faster_rcnn_pytorch). 
 
 
 ## Progress
 - [x] README for training 
 - [x] README for project settings
-- [ ] our trained RPN
-- [ ] our trained Full Model
-- [ ] Our cleansed Visual Genome Dataset
+- [x] our trained RPN
+- [x] our trained Full Model
+- [x] Our cleansed Visual Genome Dataset
 - [x] training codes
 - [x] evaluation codes
 - [ ] Model acceleration
@@ -25,6 +25,7 @@ We are still working on the project. If you are interested, please **Follow** ou
     ```
     conda install pip pyyaml sympy h5py cython numpy scipy
     conda install -c menpo opencv3
+    conda install -c soumith pytorch torchvision cuda80 
     pip install easydict
     ```
 
@@ -37,22 +38,31 @@ We are still working on the project. If you are interested, please **Follow** ou
     ```bash
     cd MSDN/faster_rcnn
     ./make.sh
+    cd ..
     ```
-4. Download the [trained model](https://drive.google.com/open?id=0B4pXCfnYmG1WOXdpYVFybWxiZFE) 
+4. Download the [trained full model](https://www.dropbox.com/s/vg1lseklk1f86z0/HDN_1_iters_alt_normal_I_LSTM_with_bias_with_dropout_0_5_nembed_256_nhidden_512_with_region_regression_resume_SGD_best.h5?dl=0) and [trained RPN](https://www.dropbox.com/s/fazqfcs6bhbe051/RPN_region_full_best.h5?dl=0), and place it to ```output/trained_model```
 
-5. Download [our cleansed Visual Genome dataset](https://www.dropbox.com/sh/anewjszk97caes1/AAB3IBziBnQTclv-iHkfZezca?dl=0). p.s. Our ipython [scripts](https://github.com/yikang-li/vg_cleansing) for data cleansing is also released. 
-6. 
+5. Download our [cleansed Visual Genome dataset](https://www.dropbox.com/s/otnzpreg6dyadcz/top_150_50.tgz?dl=0). And unzip it:
+```
+tar xzvf top_150_50.tgz
+```
+- p.s. Our ipython [scripts](https://github.com/yikang-li/vg_cleansing) for data cleansing is also released. 
 
 
-## Data perparation
+6. Download [Visual Genome images](http://visualgenome.org/api/v0/api_home.html)
 
-We have offer our cleansed Visual Genome dataset. Please download the images by yourself. Our [ipython scripts for data cleansing](https://github.com/yikang-li/vg_cleansing) is also released for your reference. 
-
-Please [Click](https://www.dropbox.com/sh/anewjszk97caes1/AAB3IBziBnQTclv-iHkfZezca?dl=0) to download from Dropbox. 
+7. Place *Images and* *cleansed annotations* to coresponding folders:
+```
+mkdir -p data/visual_genome
+cd data/visual_genome
+ln -s /path/to/VG_100K_images_folder VG_100K_images
+ln -s /path/to/downloaded_folder top_150_50
+```
+- p.s. You can change the default data directory by modifying ```__C.IMG_DATA_DIR``` in ```faster_rcnn/fast_rcnn/config.py``` 
 
 ## Training
-- Training from scratch
-	1. Training RPN for object proposals and caption region proposals (the **shared conv layers** are fixed)
+- Training in multiple stages. (Single-GPU training may take about one week.)
+	1. Training RPN for object proposals and caption region proposals (the **shared conv layers** are fixed). We also provide [our pretrained RPN](https://www.dropbox.com/s/fazqfcs6bhbe051/RPN_region_full_best.h5?dl=0) model. 
 
 	by default, the training is done on a small part of the full dataset:
 	```
@@ -64,18 +74,17 @@ Please [Click](https://www.dropbox.com/sh/anewjszk97caes1/AAB3IBziBnQTclv-iHkfZe
 	CUDA_VISIBLE_DEVICES=0 python train_rpn_region.py --max_epoch=10 --step_size=2 --dataset_option=normal --model_name=RPN_full_region
 	```
 
-	```--step_size``` is set to indicate the number of epochs to decay the learning rate, ```dataset_option``` is to indicate the *small*, *fat* or *normal* subset. 
+	```--step_size``` is set to indicate the number of epochs to decay the learning rate, ```dataset_option``` is to indicate the ```\[ small | fat | normal \]``` subset. 
+
 	2. Training MSDN
 
 	Here, we use SGD (controled by ```--optimizer```)by default:
 	```
-	CUDA_VISIBLE_DEVICES=4 python train_hdn.py --load_RPN --saved_model_path=./output/RPN/RPN_region_full_best.h5 \
-	--dataset_option=normal --enable_clip_gradient \
-	--step_size=3 --caption_use_bias --caption_use_dropout 
+	CUDA_VISIBLE_DEVICES=0 python train_hdn.py --load_RPN --saved_model_path=./output/RPN/RPN_region_full_best.h5  --dataset_option=normal --enable_clip_gradient --step_size=2 --MPS_iter=1 --caption_use_bias --caption_use_dropout --rnn_type LSTM_normal 
 	```
-- Furthermore, we can directly use end-to-end training from scratch. The result is not good. 
+- Furthermore, we can directly use end-to-end training from scratch (not recommended). The result is not good. 
 	```
-	CUDA_VISIBLE_DEVICES=7 python train_hdn.py \
+	CUDA_VISIBLE_DEVICES=0 python train_hdn.py \
 	--dataset_option=normal --enable_clip_gradient \
 	--step_size=3 --MPS_iter=1 --caption_use_bias --caption_use_dropout \
 	--max_epoch=11 --optimizer=1 --lr=0.001
@@ -84,17 +93,18 @@ Please [Click](https://www.dropbox.com/sh/anewjszk97caes1/AAB3IBziBnQTclv-iHkfZe
 
 ## Evaluation 
 
-Since our project only support one-GPU training, the training process is really slow (take 1 week per experiment). Therefore, we provide [our pretrained full Model](https://www.dropbox.com/sh/0dvf5igsbn5t2k5/AACBzeivC8r6tiOQUCVD6MPHa?dl=0). 
+Our [pretrained full Model](https://www.dropbox.com/s/vg1lseklk1f86z0/HDN_1_iters_alt_normal_I_LSTM_with_bias_with_dropout_0_5_nembed_256_nhidden_512_with_region_regression_resume_SGD_best.h5?dl=0) is provided for your evaluation for further implementation. (Please download the related files in advance.)
 
 
 ```
-CUDA_VISIBLE_DEVICES=5 python train_hdn.py \ 
-	--resume_training --resume_model ./pretrained_models/HDN_1_iters_alt_normal_H_LSTM_with_bias_with_dropout_0_5_nembed_256_nhidden_512_with_region_regression_resume_SGD_best.h5 \
-	--dataset_option=normal  --MPS_iter=1 \
-	--caption_use_bias --caption_use_dropout \
+CUDA_VISIBLE_DEVICES=0 python train_hdn.py \   
+	--resume_training --resume_model ./pretrained_models/HDN_1_iters_alt_normal_I_LSTM_with_bias_with_dropout_0_5_nembed_256_nhidden_512_with_region_regression_resume_SGD_best.h5 \   
+	--dataset_option=normal  --MPS_iter=1 \   
+	--caption_use_bias --caption_use_dropout \   
 	--rnn_type LSTM_normal
 ```
 
+Currently, the accuracy of our released version is slightly different from the reported results in the paper:Recall@50: **11.705%**; Recall@100: **14.085%**.
 
 ## Acknowledgement
 
@@ -114,4 +124,4 @@ We thank [longcw](https://github.com/longcw/faster_rcnn_pytorch) for his generou
 
 The pre-trained models and the MSDN technique are released for uncommercial use.
 
-Contact [Yikang LI](http://www.cvboy.com) if you have questions.
+Contact [Yikang LI](http://www.cvboy.com/) if you have questions.

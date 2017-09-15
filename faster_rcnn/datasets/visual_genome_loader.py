@@ -19,7 +19,7 @@ from ..fast_rcnn.config import cfg
 from ..utils.blob import prep_im_for_blob, im_list_to_blob
 
 class visual_genome(data.Dataset):
-    def __init__(self, set_option, image_set, annotation_folder='top_150_50_new'):
+    def __init__(self, set_option, image_set, annotation_folder='top_150_50'):
         self._name = 'vg_' + set_option + '_' + image_set
         self.unknown_token='<unknown>'
         self.start_token='<start>'
@@ -28,7 +28,7 @@ class visual_genome(data.Dataset):
         self._image_set = image_set
         self._data_path = osp.join(cfg.DATA_DIR, 'visual_genome', 'VG_100K_images')
         # load category names and annotations
-        annotation_dir = osp.join(self._data_path, '..', 'vg_cleansing', 'output', annotation_folder)
+        annotation_dir = osp.join(cfg.DATA_DIR, 'visual_genome', annotation_folder)
         cats = json.load(open(osp.join(annotation_dir, 'categories.json')))
         dictionary = json.load(open(osp.join(annotation_dir, 'dict.json')))
         inverse_weight = json.load(open(osp.join(annotation_dir, 'inverse_weight.json')))
