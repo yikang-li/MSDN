@@ -84,10 +84,7 @@ ln -s /path/to/downloaded_folder top_150_50
 	```
 - Furthermore, we can directly use end-to-end training from scratch (not recommended). The result is not good. 
 	```
-	CUDA_VISIBLE_DEVICES=0 python train_hdn.py \
-	--dataset_option=normal --enable_clip_gradient \
-	--step_size=3 --MPS_iter=1 --caption_use_bias --caption_use_dropout \
-	--max_epoch=11 --optimizer=1 --lr=0.001
+	CUDA_VISIBLE_DEVICES=0 python train_hdn.py  --dataset_option=normal --enable_clip_gradient  --step_size=3 --MPS_iter=1 --caption_use_bias --caption_use_dropout	--max_epoch=11 --optimizer=1 --lr=0.001
 	```
 
 
@@ -97,11 +94,7 @@ Our [pretrained full Model](https://www.dropbox.com/s/vg1lseklk1f86z0/HDN_1_iter
 
 
 ```
-CUDA_VISIBLE_DEVICES=0 python train_hdn.py \   
-	--resume_training --resume_model ./pretrained_models/HDN_1_iters_alt_normal_I_LSTM_with_bias_with_dropout_0_5_nembed_256_nhidden_512_with_region_regression_resume_SGD_best.h5 \   
-	--dataset_option=normal  --MPS_iter=1 \   
-	--caption_use_bias --caption_use_dropout \   
-	--rnn_type LSTM_normal
+./eval.sh
 ```
 
 Currently, the accuracy of our released version is slightly different from the reported results in the paper:Recall@50: **11.705%**; Recall@100: **14.085%**.
