@@ -7,7 +7,6 @@ from faster_rcnn.RPN import RPN # Hierarchical_Descriptive_Model
 from faster_rcnn.utils.timer import Timer
 from faster_rcnn.utils.HDN_utils import check_recall
 
-import faster_rcnn.roi_data_layer.roidb as rdl_roidb
 from faster_rcnn.datasets.visual_genome_loader import visual_genome
 from faster_rcnn.fast_rcnn.config import cfg
 import argparse

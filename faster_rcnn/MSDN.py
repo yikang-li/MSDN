@@ -18,7 +18,7 @@ from rpn_msr.proposal_target_layer_hdn import proposal_target_layer as proposal_
 from fast_rcnn.bbox_transform import bbox_transform_inv_hdn, clip_boxes
 from fast_rcnn.hierarchical_message_passing_structure import Hierarchical_Message_Passing_Structure
 from Language_Model import Language_Model
-from RPN_v3 import RPN
+from RPN import RPN
 from fast_rcnn.config import cfg
 from utils.cython_bbox import bbox_overlaps
 
@@ -42,7 +42,7 @@ def nms_detections(pred_boxes, scores, nms_thresh, inds=None):
         return pred_boxes[keep], scores[keep], keep
     return pred_boxes[keep], scores[keep], inds[keep], keep
 
-class Hierarchical_Descriptive_Model(MSDN_base):
+class Hierarchical_Descriptive_Model(HDN_base):
     def __init__(self,nhidden, n_object_cats, n_predicate_cats, n_vocab, voc_sign, 
                  max_word_length, MPS_iter, use_language_loss, object_loss_weight, 
                  predicate_loss_weight, 

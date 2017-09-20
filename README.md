@@ -66,7 +66,7 @@ ln -s /path/to/downloaded_folder top_150_50
 
 	by default, the training is done on a small part of the full dataset:
 	```
-	CUDA_VISIBLE_DEVICES=0 python train_rpn_region.py
+	CUDA_VISIBLE_DEVICES=0 python train_rpn.py
 	```
 
 	For full Dataset Training:
