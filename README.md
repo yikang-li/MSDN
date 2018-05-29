@@ -40,9 +40,9 @@ We are still working on the project. If you are interested, please **Follow** ou
     ./make.sh
     cd ..
     ```
-4. Download the [trained full model](https://www.dropbox.com/s/vg1lseklk1f86z0/HDN_1_iters_alt_normal_I_LSTM_with_bias_with_dropout_0_5_nembed_256_nhidden_512_with_region_regression_resume_SGD_best.h5?dl=0) and [trained RPN](https://www.dropbox.com/s/fazqfcs6bhbe051/RPN_region_full_best.h5?dl=0), and place it to ```output/trained_model```
+4. Download the [trained full model](https://drive.google.com/file/d/1NWjVMKfa6_ce2MguRLG6lGdrEF3TvwlI/view?usp=sharing) and [trained RPN](https://drive.google.com/file/d/1-Jewgg9tfZm5c-beAsCdNWEWKh9GuKa7/view?usp=sharing), and place it to ```output/trained_model```
 
-5. Download our [cleansed Visual Genome dataset](https://www.dropbox.com/s/otnzpreg6dyadcz/top_150_50.tgz?dl=0). And unzip it:
+5. Download our [cleansed Visual Genome dataset](https://drive.google.com/file/d/1RtYidFZRgX1_iYPCaP2buHI1bHacjRTD/view?usp=sharing). And unzip it:
 ```
 tar xzvf top_150_50.tgz
 ```
