@@ -93,7 +93,7 @@ def group_features(net_):
 def check_recall(rois, gt_objects, top_N, thres=0.5):
     overlaps = bbox_overlaps(
         np.ascontiguousarray(rois.cpu().data.numpy()[:top_N, 1:5], dtype=np.float),
-        np.ascontiguousarray(gt_objects[:4], dtype=np.float))
+        np.ascontiguousarray(gt_objects[:,:4], dtype=np.float))
 
     overlap_gt = np.amax(overlaps, axis=0)
     correct_cnt = np.sum(overlap_gt >= thres)
