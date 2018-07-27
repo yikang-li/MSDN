@@ -2,6 +2,7 @@
 
 
 This is our implementation of **Multi-level Scene Description Network** in [Scene Graph Generation from Objects, Phrases and Region Captions](http://cvboy.com/pdf/iccv2017_msdn.pdf). The project is based on PyTorch version of [faster R-CNN](https://github.com/longcw/faster_rcnn_pytorch). 
+*(Update: model links have been updated. Sorry for the inconvenience.)*
 
 
 ## Progress
