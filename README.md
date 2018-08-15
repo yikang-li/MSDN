@@ -4,8 +4,12 @@
 This is our implementation of **Multi-level Scene Description Network** in [Scene Graph Generation from Objects, Phrases and Region Captions](http://cvboy.com/pdf/iccv2017_msdn.pdf). The project is based on PyTorch version of [faster R-CNN](https://github.com/longcw/faster_rcnn_pytorch). 
 *(Update: model links have been updated. Sorry for the inconvenience.)*
 
-## **Updates**
-We have released our newly proposed scene graph generation model in our ECCV-2018 paper: [**Factorizable Net: An Efficient Subgraph-based Framework for Scene Graph Generation**](http://cvboy.com/publication/eccv2018_fnet/). Please check the github repo [**Factorizable Net**](https://github.com/yikang-li/FactorizableNet) if you are interested.
+## \*Updates\*
+We have released our newly proposed scene graph generation model in our ECCV-2018 paper: 
+
+[**Factorizable Net: An Efficient Subgraph-based Framework for Scene Graph Generation**](http://cvboy.com/publication/eccv2018_fnet/). 
+
+Check the github repo [**Factorizable Net**](https://github.com/yikang-li/FactorizableNet) if you are interested.
 
 ## Progress
 - [x] README for training 
