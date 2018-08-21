@@ -19,7 +19,7 @@ Check the github repo [**Factorizable Net**](https://github.com/yikang-li/Factor
 - [x] Our cleansed Visual Genome Dataset
 - [x] training codes
 - [x] evaluation codes
-- [ ] Model acceleration
+- [x] Model acceleration (please refer to our [ECCV](https://github.com/yikang-li/FactorizableNet) project).
 - [ ] Multi-GPU support
 
 We are still working on the project. If you are interested, please **Follow** our project. 
