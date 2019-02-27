@@ -20,7 +20,7 @@ Check the github repo [**Factorizable Net**](https://github.com/yikang-li/Factor
 - [x] training codes
 - [x] evaluation codes
 - [x] Model acceleration (please refer to our [ECCV](https://github.com/yikang-li/FactorizableNet) project).
-- [ ] Multi-GPU support
+- [x] **Multi-GPU support**: we have release a beta Multi-GPU version of our [FactorizableNet](https://github.com/yikang-li/FactorizableNet). If you want to enhance the training speed, please check that project. 
 
 We are still working on the project. If you are interested, please **Follow** our project. 
 
