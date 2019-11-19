@@ -78,7 +78,7 @@ ln -s /path/to/downloaded_folder top_150_50
 
 	For full Dataset Training:
 	```
-	CUDA_VISIBLE_DEVICES=0 python train_rpn_region.py --max_epoch=10 --step_size=2 --dataset_option=normal --model_name=RPN_full_region
+	CUDA_VISIBLE_DEVICES=0 python train_rpn.py --max_epoch=10 --step_size=2 --dataset_option=normal --model_name=RPN_full_region
 	```
 
 	```--step_size``` is set to indicate the number of epochs to decay the learning rate, ```dataset_option``` is to indicate the ```\[ small | fat | normal \]``` subset. 
